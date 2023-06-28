@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CrudmoduleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::resource('crud-module',CrudmoduleController::class);
+});
 require __DIR__.'/auth.php';
