@@ -42,6 +42,12 @@
                     
                   </tbody>
                 </table>
+
+                @can('Joke access')
+                <div class="text-right p-4 py-10">
+                  {{ $jokes->links() }}
+                </div>
+                @endcan
               </div>
   
             </div>

@@ -32,9 +32,9 @@ class JokeController extends Controller
      */
     public function index()
     {
-        dd($this->getDummyData());
+
         if(Auth::user()->can('Joke access')){
-            $joke = Joke::latest()->get();
+            $joke = Joke::paginate(10);
 
             return view('setting.joke.index',['jokes'=>$joke]);
         }else{
@@ -120,28 +120,38 @@ class JokeController extends Controller
 
     public function getDummyData()
     {
-        $allCategory = Jokecategory::get();
-        foreach($allCategory as $c){
-            // dd($c->name);
-            $name = $c->name;
-            $data = $this->request_curl("https://api.chucknorris.io/jokes/search?query=".$name,[],'GET');
-            if($data->total){
-                $joke = [];
-                foreach($data->result as $d){
-                    $joke['name'] = $d->value;
-                    if(!empty($d->categories)){
-                        foreach($d->categories as $cat){
-                            $jobcategory = Jokecategory::where('name',$cat)->first();
-                            if($jobcategory){
-                                $joke['joke_category_id'] = $jobcategory->id;
-                                Joke::create($joke);
-                            }
-                        }
-                    }else{
-                        Joke::create($joke);
-                    }
-                }
-            }
+        // $allCategory = Jokecategory::get();
+        // foreach($allCategory as $c){
+        //     // dd($c->name);
+        //     $name = $c->name;
+        //     $data = $this->request_curl("https://api.chucknorris.io/jokes/search?query=".$name,[],'GET');
+        //     if($data->total){
+        //         $joke = [];
+        //         foreach($data->result as $d){
+        //             $joke['name'] = $d->value;
+        //             if(!empty($d->categories)){
+        //                 foreach($d->categories as $cat){
+        //                     $jobcategory = Jokecategory::where('name',$cat)->first();
+        //                     if($jobcategory){
+        //                         $joke['joke_category_id'] = $jobcategory->id;
+        //                         Joke::create($joke);
+        //                     }
+        //                 }
+        //             }else{
+        //                 Joke::create($joke);
+        //             }
+        //         }
+        //     }
+        // }
+
+        // get json read
+
+        $datadd = file_get_contents("data.json");
+        $datadddd = json_decode($datadd);
+        $joke = [];
+        foreach($datadddd as $d){
+            $joke['name'] = $d;
+            Joke::create($joke);
         }
     }
 
