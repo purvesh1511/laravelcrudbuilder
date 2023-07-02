@@ -32,10 +32,8 @@ class JokeController extends Controller
      */
     public function index()
     {
-
         if(Auth::user()->can('Joke access')){
             $joke = Joke::paginate(10);
-
             return view('setting.joke.index',['jokes'=>$joke]);
         }else{
             abort(403);
@@ -144,15 +142,86 @@ class JokeController extends Controller
         //     }
         // }
 
-        // get json read
+        // get json read data local
 
-        $datadd = file_get_contents("data.json");
-        $datadddd = json_decode($datadd);
-        $joke = [];
-        foreach($datadddd as $d){
-            $joke['name'] = $d;
-            Joke::create($joke);
-        }
+        // $datadd = file_get_contents("data.json");
+        // $datadddd = json_decode($datadd);
+        // $joke = [];
+        // foreach($datadddd as $d){
+        //     $joke['name'] = $d;
+        //     $joke['type'] = 1;
+        //     Joke::create($joke);
+        // }
+
+        // $datadd = file_get_contents("quotes.json");
+        // $datadddd = json_decode($datadd);
+        // $joke = [];
+        // foreach($datadddd as $d){
+        //     $joke['name'] = $d;
+        //     $joke['type'] = 1;
+        //     Joke::create($joke);
+        // }
+
+        // $datadd = file_get_contents("quotes1.json");
+        // $datadddd = json_decode($datadd);
+        
+        // $joke = [];
+        // foreach($datadddd as $d){
+        //     $joke['name'] = $d->en;
+        //     $joke['author'] = $d->author;
+        //     $joke['type'] = 1;
+        //     Joke::create($joke);
+        // }
+        
+        // $dataArray = $this->request_curl("https://api.quotable.io/quotes?limit=100",[],'GET');
+        // $totalPage = $dataArray->totalPages;
+        // for ($i=1; $i < $totalPage+1; $i++) { 
+        //     $data = $this->request_curl("https://api.quotable.io/quotes?page=$i&limit=100",[],'GET');
+        //     foreach($data->results as $d){
+        //         $joke['name'] = $d->content;
+        //         $joke['type'] = 1;
+        //         $joke['tag'] = implode(",", $d->tags);
+        //         $joke['author'] = $d->author;
+        //         Joke::create($joke);
+        //     }
+        // }
+
+        // $dataArray = $this->request_curl("https://zenquotes.io/api/quotes",[],'GET');
+        // foreach($dataArray as $d){
+        //     $joke['name'] = $d->q;
+        //     $joke['type'] = 1;
+        //     $joke['author'] = $d->a;
+        //     Joke::create($joke);
+        // }
+        // ini_set('max_execution_time', -1);
+            // phpinfo();
+
+        // $dataArray = $this->request_curl("https://quote-garden.onrender.com/api/v3/quotes?limit=100",[],'GET');
+        // $totalPage = $dataArray->pagination->totalPages;
+        
+        // for ($i=1; $i < $totalPage+1; $i++) { 
+        //     $data = $this->request_curl("https://quote-garden.onrender.com/api/v3/quotes?page=$i&limit=100",[],'GET');
+        //     // dd($data);
+        //     foreach($data->data as $d){
+        //         $joke['name'] = $d->quoteText;
+        //         $joke['type'] = 1;
+        //         $joke['tag'] =  $d->quoteGenre;
+        //         $joke['author'] = $d->quoteAuthor;
+        //         Joke::create($joke);
+        //     }
+        // }
+
+
+        // $datadd = file_get_contents("quotes2.json");
+        // $datadddd = json_decode($datadd,false);
+        // $joke = [];
+        // foreach($datadddd as $d){
+        //     // dd($d);
+        //     $joke['name'] = $d->quote;
+        //     $joke['author'] = $d->author;
+        //     $joke['type'] = 1;
+        //     Joke::create($joke);
+        // }
     }
 
 }

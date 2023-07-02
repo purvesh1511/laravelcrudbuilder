@@ -23,6 +23,9 @@ class CreateJokesTable extends Migration
             $table->foreign('joke_category_id')->references('id')->on('jokecategories')->onDelete('cascade');
             $table->string('status')->default(0)->nullable()->comment("1 = active and 0 = unactive");
             $table->string('is_publish')->default(0)->nullable()->comment("1 = publish and 0 = unpublish");
+            $table->string('type')->default(0)->comment("1 = quote and 0 = joke")->nullable();
+            $table->string('tag')->nullable();
+            $table->string('author')->nullable();
             $table->timestamps();
         });
     }

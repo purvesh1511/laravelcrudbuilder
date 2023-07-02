@@ -17,6 +17,10 @@ class Joke extends Model
         'joke_category_id',
         'status',
         'is_publish',
+        'type',
+        'tag',
+        'author'
+
     ];
 
 }
