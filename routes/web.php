@@ -68,7 +68,7 @@ Route::namespace('App\Http\Controllers\Admin')->middleware('role:admin|writer')-
         Route::resource('users','UserController');
         Route::resource('posts','PostController');
         Route::resource('frequent','FrequentController');
-        Route::resource('joke-category','JokesCategoryController');
+        Route::resource('joke-category','JokeCategoryController');
 
         Route::get('/profile',[ProfileController::class,'index'])->name('profile');
         Route::put('/profile-update',[ProfileController::class,'update'])->name('profile.update');
