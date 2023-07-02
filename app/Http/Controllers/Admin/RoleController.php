@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Gate;
-
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -17,10 +17,10 @@ class RoleController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:Role access|Role create|Role edit|Role delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:Role create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Role edit', ['only' => ['edit','update']]);
-        $this->middleware('role_or_permission:Role delete', ['only' => ['destroy']]);
+        // $this->middleware('role_or_permission:Role access|Role create|Role edit|Role delete', ['only' => ['index','show']]);
+        // $this->middleware('role_or_permission:Role create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:Role edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:Role delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -30,9 +30,13 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $role= Role::latest()->get();
+        if(Auth::user()->can('Role access')){
+            $role= Role::latest()->get();
 
-        return view('setting.role.index',['roles'=>$role]);
+            return view('setting.role.index',['roles'=>$role]);
+        }else{
+            abort(403);
+        }
     }
 
     /**

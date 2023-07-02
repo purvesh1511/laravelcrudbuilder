@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Mailsetting;
 
 
@@ -17,8 +17,8 @@ class MailSettingController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:Mail access|Mail edit', ['only' => ['index']]);
-        $this->middleware('role_or_permission:Mail edit', ['only' => ['update']]);
+        // $this->middleware('role_or_permission:Mail access|Mail edit', ['only' => ['index']]);
+        // $this->middleware('role_or_permission:Mail edit', ['only' => ['update']]);
     }
 
     /**
@@ -28,9 +28,13 @@ class MailSettingController extends Controller
      */
     public function index()
     {
-        $mail= Mailsetting::find(1);
+        if(Auth::user()->can('Mail access')){
+            $mail= Mailsetting::find(1);
 
-        return view('setting.setting.mail',['mail'=>$mail]);
+            return view('setting.setting.mail',['mail'=>$mail]);
+        }else{
+            abort(403);
+        }
     }
 
     public function update(Request $request, Mailsetting $mailsetting)

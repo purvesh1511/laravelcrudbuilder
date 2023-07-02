@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
 
@@ -18,10 +18,10 @@ class PermissionController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:Permission access|Permission create|Permission edit|Permission delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:Permission create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Permission edit', ['only' => ['edit','update']]);
-        $this->middleware('role_or_permission:Permission delete', ['only' => ['destroy']]);
+        // $this->middleware('role_or_permission:Permission access|Permission create|Permission edit|Permission delete', ['only' => ['index','show']]);
+        // $this->middleware('role_or_permission:Permission create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:Permission edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:Permission delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -31,9 +31,13 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permission= Permission::latest()->get();
+        if(Auth::user()->can('Permission access')){
+            $permission= Permission::latest()->get();
 
-        return view('setting.permission.index',['permissions'=>$permission]);
+            return view('setting.permission.index',['permissions'=>$permission]);
+        }else{
+            abort(403);
+        }
     }
 
     /**

@@ -14,10 +14,10 @@ class PostController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:Post access|Post create|Post edit|Post delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:Post create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:Post edit', ['only' => ['edit','update']]);
-        $this->middleware('role_or_permission:Post delete', ['only' => ['destroy']]);
+        // $this->middleware('role_or_permission:Post access|Post create|Post edit|Post delete', ['only' => ['index','show']]);
+        // $this->middleware('role_or_permission:Post create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:Post edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:Post delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -27,9 +27,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        $Post= Post::paginate(4);
-
-        return view('post.index',['posts'=>$Post]);
+        if(Auth::user()->can('Post access')){
+            $Post= Post::paginate(4);
+            return view('post.index',['posts'=>$Post]);
+        }else{
+            abort(403);
+        }
     }
 
     /**

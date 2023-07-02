@@ -19,10 +19,10 @@ class UserController extends Controller
      */
     function __construct()
     {
-        $this->middleware('role_or_permission:User access|User create|User edit|User delete', ['only' => ['index','show']]);
-        $this->middleware('role_or_permission:User create', ['only' => ['create','store']]);
-        $this->middleware('role_or_permission:User edit', ['only' => ['edit','update']]);
-        $this->middleware('role_or_permission:User delete', ['only' => ['destroy']]);
+        // $this->middleware('role_or_permission:User access|User create|User edit|User delete', ['only' => ['index','show']]);
+        // $this->middleware('role_or_permission:User create', ['only' => ['create','store']]);
+        // $this->middleware('role_or_permission:User edit', ['only' => ['edit','update']]);
+        // $this->middleware('role_or_permission:User delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -32,9 +32,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user= User::latest()->get();
+        if(Auth::user()->can('User access')){
+            $user= User::latest()->get();
 
-        return view('setting.user.index',['users'=>$user]);
+            return view('setting.user.index',['users'=>$user]);
+        }else{
+            abort(403);
+        }
     }
 
     /**
